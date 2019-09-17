@@ -1,6 +1,6 @@
 # Buy tickets
 
-Simple [Puppeteer](https://github.com/GoogleChrome/puppeteer) script to make buying multiple Greater Anglia tickets slightly faster.
+Simple [Puppeteer](https://github.com/GoogleChrome/puppeteer) script to make buying multiple Greater Anglia tickets slightly faster (with a 16-25 railcard). 
 
 Works on Mac OS, might work on Windows.
 
@@ -27,3 +27,9 @@ node app.js
 ```
 
 Enter dates in format ```YYYY-MM-DD```, eg ```2019-09-30```.
+
+
+## Todo
+
+* Make railcard optional
+* Make it easier to buy multiple tickets in a row/easier to enter dates

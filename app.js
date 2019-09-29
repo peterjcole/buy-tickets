@@ -19,11 +19,10 @@ const getPassword = username => {
   return keytar.getPassword('buy-tickets', username)
 }
 
-const getDate = () => {
+const getInput = () => {
   return new Promise ((resolve, reject) => {
-    readline.question('What date do you want a ticket for? (type q to quit)', date => {
-      if (date === 'q') resolve('q')
-      resolve(new Date(date))
+    readline.question('What date do you want a ticket for? (type t for tomorrow, n for next day after the last, q to quit)\n', input => {
+        resolve(input)
     })
   })
 }
@@ -72,9 +71,7 @@ const loginTo = async page => {
     await page.evaluate((text) => { (document.getElementById('EmailTextBox')).value = text; }, username);
 
     await page.evaluate((text) => { (document.getElementById('PasswordTextBox')).value = text; }, password);
-  
-    await page.waitFor(3000)
-  
+    
     await Promise.all([page.click('#PrimaryLoginSubmitButton'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
   }
 }
@@ -94,11 +91,9 @@ async function selectPeakJourneys(page) {
   await page.evaluate(() => {
     document.querySelector("[id='66_1']").click();
   });
-  await page.waitFor(100);
   await page.evaluate(() => {
     document.querySelector("[id='66_5']").click();
   });
-  await page.waitFor(1000);
   await Promise.all([page.click('#SelectTicket'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
   await Promise.all([page.click('#SeatReservationButton'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
 }
@@ -132,9 +127,29 @@ const run = async () => {
 
   await clearBasket(page)
 
+  let date;
+
   while (true) {
-    let date = await getDate()
-    if(date === 'q') break
+    const answer = await getInput()
+    let done = false
+
+    switch (answer) {
+      case 'q':
+        done = true
+        break
+      case 't':
+        date = new Date()
+        date.setDate(date.getDate() + 1)
+        break
+      case 'n':
+        date ? date.setDate(date.getDate() + 1) : date = new Date()
+        break
+      default:
+        date = new Date(answer)
+    }
+
+    console.log(date)
+    if (done) break
     await buyTicketFor(date, page)
   }
 

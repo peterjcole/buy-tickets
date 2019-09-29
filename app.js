@@ -94,6 +94,8 @@ async function selectPeakJourneys(page) {
   await page.evaluate(() => {
     document.querySelector("[id='66_5']").click();
   });
+  await page.waitFor(100);
+
   await Promise.all([page.click('#SelectTicket'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
   await Promise.all([page.click('#SeatReservationButton'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
 }

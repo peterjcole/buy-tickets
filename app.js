@@ -71,7 +71,9 @@ const loginTo = async page => {
     await page.evaluate((text) => { (document.getElementById('EmailTextBox')).value = text; }, username);
 
     await page.evaluate((text) => { (document.getElementById('PasswordTextBox')).value = text; }, password);
-    
+  
+    await page.waitFor(3000)
+  
     await Promise.all([page.click('#PrimaryLoginSubmitButton'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
   }
 }
@@ -91,11 +93,11 @@ async function selectPeakJourneys(page) {
   await page.evaluate(() => {
     document.querySelector("[id='66_1']").click();
   });
+  await page.waitFor(100);
   await page.evaluate(() => {
     document.querySelector("[id='66_5']").click();
   });
-  await page.waitFor(100);
-
+  await page.waitFor(1000);
   await Promise.all([page.click('#SelectTicket'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
   await Promise.all([page.click('#SeatReservationButton'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
 }

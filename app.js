@@ -91,11 +91,11 @@ async function continueToPayment(page) {
 
 async function selectPeakJourneys(page) {
   await page.evaluate(() => {
-    document.querySelector("[id='66_1']").click();
+    document.querySelector("[id='107_1']").click();
   });
   await page.waitFor(100);
   await page.evaluate(() => {
-    document.querySelector("[id='66_5']").click();
+    document.querySelector("[id='107_5']").click();
   });
   await page.waitFor(1000);
   await Promise.all([page.click('#SelectTicket'), page.waitForNavigation({ waitUntil: 'load' }), page.waitForNavigation({ waitUntil: 'networkidle0' })]);
